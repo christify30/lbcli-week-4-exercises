@@ -15,7 +15,7 @@ locktime=$((current_height + two_weeks_height))
 raw_tx=$(bitcoin-cli -regtest createrawtransaction \
   '[{
     "txid": "'$(echo "$decoded_tx" | jq -r '.txid')'",
-    "vout": 0,
+    "vout": 37,
     "sequence": 0
   }]' \
   "{\"$recipient\": $amount}" \
