@@ -9,16 +9,22 @@ recipient="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
 
 amount=0.2  # 20,000,000 satoshis
 current_height=25
-#two_weeks_height=$((6 * 2 * 7 * 24))
-two_weeks_height=2041
+two_weeks_height=$((6 * 2 * 7 * 24))
+
 locktime=$((current_height + two_weeks_height))
 
 raw_tx=$(bitcoin-cli -regtest createrawtransaction \
   '[{
     "txid": "'$(echo "$decoded_tx" | jq -r '.txid')'",
     "vout": 0,
-    "sequence": 4294967294
-  }]' \
+    "sequence": 4294967293
+  },
+{
+    "txid": "'$(echo "$decoded_tx" | jq -r '.txid')'",
+    "vout": 1,
+    "sequence": 4294967293
+  }
+]' \
   "{\"$recipient\": $amount}" \
   $locktime)
 
