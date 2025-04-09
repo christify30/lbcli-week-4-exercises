@@ -9,7 +9,8 @@ recipient="2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP"
 
 amount=0.2  # 20,000,000 satoshis
 current_height=25
-two_weeks_height=$((6 * 2 * 7 * 24))
+#two_weeks_height=$((6 * 2 * 7 * 24))
+two_weeks_height=2041
 locktime=$((current_height + two_weeks_height))
 
 raw_tx=$(bitcoin-cli -regtest createrawtransaction \
