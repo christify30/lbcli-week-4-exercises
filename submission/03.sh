@@ -9,22 +9,26 @@ address=2MvLcssW49n9atmksjwg2ZCMsEMsoj3pzUP
 amount=0.2
 message="btrust builder 2025"
 
-message_hex=$(echo -n "$message" | sha256sum | head -c 64)
-
-raw_tx=$(bitcoin-cli -regtest createrawtransaction \
-  '[{
+message_hex=$(printf "%s" "$message" | od -An -tx1 | tr -d ' \n')
+ 
+raw_tx=$(bitcoin-cli -regtest createrawtransaction '[
+  {
     "txid": "'$(echo "$decoded_tx" | jq -r '.txid')'",
-    "vout": 0
-   },
-   {
+    "vout": 0,
+    "sequence": 4294967293
+  },
+  {
     "txid": "'$(echo "$decoded_tx" | jq -r '.txid')'",
-    "vout": 1
-   }]' \
-  '[{
-    "'$recipient'": '$amount'
-   },
-   {
+    "vout": 1,
+    "sequence": 4294967293
+  }
+]' '[
+  {
     "data": "'$message_hex'"
-   }]')
+  },
+  {
+    "'$address'": '$amount'
+  }
+]')
 
 echo "$raw_tx"
